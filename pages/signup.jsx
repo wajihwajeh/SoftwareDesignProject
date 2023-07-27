@@ -1,28 +1,34 @@
-import { useState } from 'react';
-import styles from '../styles/FuelQuoteForm.module.css';
+"use client";
+
+import { useRouter } from "next/router";
+import { useState } from "react";
+
+import styles from "../styles/FuelQuoteForm.module.css";
 
 const SignupForm = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordAgain, setPasswordAgain] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const router = useRouter();
 
-  const handleSubmit = (event) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordAgain, setPasswordAgain] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     // Perform custom validation
     if (username.length < 3) {
-      setErrorMessage('Username must be at least 3 characters long.');
+      setErrorMessage("Username must be at least 3 characters long.");
       return;
     }
 
     if (password.length < 5) {
-      setErrorMessage('Password must be at least 5 characters long.');
+      setErrorMessage("Password must be at least 5 characters long.");
       return;
     }
 
     if (password !== passwordAgain) {
-      setErrorMessage('Passwords do not match.');
+      setErrorMessage("Passwords do not match.");
       return;
     }
 
@@ -30,17 +36,33 @@ const SignupForm = () => {
     const formData = {
       username,
       password,
-      passwordAgain,
     };
 
-    // Perform form submission using the appropriate API endpoint
-    // e.g., fetch('/api/signup', { method: 'POST', body: JSON.stringify(formData) })
+    try {
+      const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      }).then((res) => res.json());
+      
+      console.log(res);
+
+      if (res.username) {
+        router.push("/Logon");
+      } else {
+        setErrorMessage("Something wrong happend");
+      }
+    } catch (e) {
+      setErrorMessage("Something wrong happend");
+    }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className={styles['form-group']}>
-        <label className={styles['label']} htmlFor="username">Username</label>
+      <div className={styles["form-group"]}>
+        <label className={styles["label"]} htmlFor="username">
+          Username
+        </label>
         <input
           minLength="3"
           name="username"
@@ -53,7 +75,9 @@ const SignupForm = () => {
         />
       </div>
       <div>
-        <label className={styles['label']} htmlFor="password">Password</label>
+        <label className={styles["label"]} htmlFor="password">
+          Password
+        </label>
         <input
           minLength="5"
           name="password"
@@ -66,8 +90,10 @@ const SignupForm = () => {
         />
       </div>
       <div>
-	  <br />
-        <label className={styles['label']} htmlFor="passwordAgain">Retype Password</label>
+        <br />
+        <label className={styles["label"]} htmlFor="passwordAgain">
+          Retype Password
+        </label>
         <input
           minLength="5"
           name="passwordAgain"
@@ -79,12 +105,12 @@ const SignupForm = () => {
           onChange={(event) => setPasswordAgain(event.target.value)}
         />
       </div>
-	  <br />
-       <div className={styles['form-group']}>
-          <button className={styles['button']} type="submit">
-            Submit
-          </button>
-        </div>
+      <br />
+      <div className={styles["form-group"]}>
+        <button className={styles["button"]} type="submit">
+          Submit
+        </button>
+      </div>
       {errorMessage && <p>{errorMessage}</p>}
     </form>
   );

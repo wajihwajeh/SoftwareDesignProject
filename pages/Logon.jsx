@@ -1,11 +1,11 @@
 "use client";
 
-import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
-import { gradient } from "@/components/Gradient";
 import { useEffect } from "react";
-import  SigninForm from './Login.jsx';
-import Header from "./index2"
+import { AnimatePresence, motion } from "framer-motion";
+
+import { gradient } from "@/components/Gradient";
+import SigninForm from "./Login.jsx";
+import Header from "./index2";
 export default function Home() {
   useEffect(() => {
     gradient.initGradient("#gradient-canvas");
@@ -13,7 +13,6 @@ export default function Home() {
 
   return (
     <AnimatePresence>
-	
       <div className="min-h-[100vh] sm:min-h-screen w-screen flex flex-col relative bg-[#F2F3F5] font-inter overflow-hidden">
         <svg
           style={{ filter: "contrast(165%) brightness(110%)" }}
@@ -43,10 +42,8 @@ export default function Home() {
             viewBox="0 0 87 15"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-          >
-            
-          </motion.svg>
-<Header />
+          />
+          <Header />
           <motion.h1
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -55,15 +52,19 @@ export default function Home() {
               duration: 0.95,
               ease: [0.165, 0.84, 0.44, 1],
             }}
-            
           >
-             <br />
-            <span className="text-[#000]" style={{ fontSize: '20px', display: 'flex', alignItems: 'left', marginLeft: '20px' }}>
-  <SigninForm />
-</span>
-
-     
-			
+            <br />
+            <div
+              className="text-[#000]"
+              style={{
+                fontSize: "20px",
+                display: "flex",
+                alignItems: "left",
+                marginLeft: "20px",
+              }}
+            >
+              <SigninForm />
+            </div>
           </motion.h1>
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -74,11 +75,7 @@ export default function Home() {
               ease: [0.165, 0.84, 0.44, 1],
             }}
             className="flex flex-row justify-center z-20 mx-0 mb-0 mt-8 md:mt-0 md:mb-[35px] max-w-2xl md:space-x-8"
-          >
-            
-          </motion.div>
-
-          
+          ></motion.div>
         </main>
 
         <div
@@ -105,11 +102,9 @@ export default function Home() {
               "polygon(100px 0,100% 0,calc(100% + 25px) 100%, 480px 100%)",
           }}
           id="gradient-canvas"
-		  
           data-transition-in
           className="z-50 fixed top-0 right-[-2px] w-[80%] md:w-1/2 h-screen bg-[#c3e4ff]"
-        ></motion.canvas>
-        
+        />
       </div>
     </AnimatePresence>
   );
