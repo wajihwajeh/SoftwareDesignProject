@@ -4,8 +4,8 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { gradient } from "@/components/Gradient";
 import { useEffect } from "react";
-import  FuelQuoteForm from './Galon.jsx';
-import Header from "./index2"
+import FuelQuoteForm from "./Galon.jsx";
+import Header from "./index2";
 export default function Home() {
   useEffect(() => {
     gradient.initGradient("#gradient-canvas");
@@ -18,7 +18,6 @@ export default function Home() {
           style={{ filter: "contrast(165%) brightness(110%)" }}
           className="fixed z-[1] w-full h-full opacity-[35%]"
         >
-		
           <filter id="noise">
             <feTurbulence
               type="fractalNoise"
@@ -30,10 +29,8 @@ export default function Home() {
           </filter>
           <rect width="100%" height="100%" filter="url(#noise)"></rect>
         </svg>
-		
-		      <br />
-            
 
+        <br />
 
         <main className="flex flex-col justify-center h-[90%] static md:fixed w-screen overflow-hidden grid-rows-[1fr_repeat(3,auto)_1fr] z-[100] pt-[30px] pb-[320px] px-4 md:px-20 md:py-0">
           <motion.svg
@@ -48,15 +45,19 @@ export default function Home() {
             viewBox="0 0 87 15"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+          ></motion.svg>
+          <div
+            className="text-[#000]"
+            style={{
+              fontSize: "20px",
+              alignItems: "left",
+              marginRight: "700px",
+              marginTop: "150px",
+            }}
           >
-            
-          </motion.svg>
-		  <span className="text-[#000]" style={{ fontSize: '20px', alignItems: 'left', marginRight: '700px', marginTop:'150px' }}>
-		    <FuelQuoteForm />
-  
-</span>
-		
-<Header />
+            <FuelQuoteForm />
+          </div>
+          <Header />
           <motion.h1
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -65,12 +66,7 @@ export default function Home() {
               duration: 0.95,
               ease: [0.165, 0.84, 0.44, 1],
             }}
-            
-          >
-       
-     
-			
-          </motion.h1>
+          ></motion.h1>
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -80,11 +76,7 @@ export default function Home() {
               ease: [0.165, 0.84, 0.44, 1],
             }}
             className="flex flex-row justify-center z-20 mx-0 mb-0 mt-8 md:mt-0 md:mb-[35px] max-w-2xl md:space-x-8"
-          >
-            
-          </motion.div>
-
-          
+          ></motion.div>
         </main>
 
         <div
@@ -93,7 +85,7 @@ export default function Home() {
             clipPath:
               "polygon(100px 0,100% 0,calc(100% + 225px) 100%, 480px 100%)",
           }}
-        ></div>
+        />
 
         <motion.canvas
           initial={{
@@ -111,11 +103,9 @@ export default function Home() {
               "polygon(100px 0,100% 0,calc(100% + 25px) 100%, 480px 100%)",
           }}
           id="gradient-canvas"
-		  
           data-transition-in
           className="z-50 fixed top-0 right-[-2px] w-[80%] md:w-1/2 h-screen bg-[#c3e4ff]"
         ></motion.canvas>
-        
       </div>
     </AnimatePresence>
   );

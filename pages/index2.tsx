@@ -1,3 +1,4 @@
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -27,7 +28,7 @@ const Header = () => {
 
   // submenu handler
   const [openIndex, setOpenIndex] = useState(-1);
-  const handleSubmenu = (index) => {
+  const handleSubmenu = (index: number) => {
     if (openIndex === index) {
       setOpenIndex(-1);
     } else {
@@ -53,7 +54,12 @@ const Header = () => {
                   sticky ? "py-5 lg:py-2" : "py-8"
                 } `}
               >
-                 <Image src="/images/logo/123.png" alt="My Image" width={140} height={30} />
+                <Image
+                  src="/images/logo/123.png"
+                  alt="My Image"
+                  width={140}
+                  height={30}
+                />
                 <Image
                   src="/images/logo/logo.svg"
                   alt="logo"
@@ -126,7 +132,7 @@ const Header = () => {
                                 openIndex === index ? "block" : "hidden"
                               }`}
                             >
-                              {menuItem.submenu.map((submenuItem) => (
+                              {menuItem.submenu.map((submenuItem: any) => (
                                 <Link
                                   href={submenuItem.path}
                                   key={submenuItem.id}
@@ -144,7 +150,6 @@ const Header = () => {
                 </nav>
               </div>
               <div className="flex items-center justify-end pr-16 lg:pr-0">
-               
                 <div>
                   <ThemeToggler />
                 </div>
