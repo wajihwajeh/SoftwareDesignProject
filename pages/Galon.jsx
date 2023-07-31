@@ -5,6 +5,8 @@ import styles from "../styles/FuelQuoteForm.module.css";
 const FuelQuoteForm = () => {
   const router = useRouter();
   const [gallonsRequested, setGallonsRequested] = useState("");
+  const [address, setAddress] = useState("");
+  const [state, setState] = useState("");
   const [deliveryDate, setDeliveryDate] = useState("");
   const [suggestedPrice, setSuggestedPrice] = useState(0);
   const [totalAmountDue, setTotalAmountDue] = useState(0);
@@ -16,7 +18,7 @@ const FuelQuoteForm = () => {
 
     // Pricing function
     const calculatePricing = (gallonsRequested, location, hasRateHistory) => {
-      const locationFactor = location === 'Texas' ? 0.02 : 0.04;
+      const locationFactor = location === 'TX' ? 0.02 : 0.04;
       const rateHistoryFactor = hasRateHistory ? 0.01 : 0;
       const gallonsRequestedFactor = gallonsRequested > 1000 ? 0.02 : 0.03;
 
@@ -32,7 +34,7 @@ const FuelQuoteForm = () => {
 
     const { suggestedPrice, totalAmountDue } = calculatePricing(
       +gallonsRequested,
-      "Texas", // Replace with the actual location (in-state or out-of-state) based on user input
+      state,
       true // Replace with the actual value based on client's rate history
     );
 
@@ -52,7 +54,7 @@ const FuelQuoteForm = () => {
         },
         body: JSON.stringify({
           gallons_requested: +gallonsRequested,
-          delivery_address: "123 Main St, City, State, Zip", // Replace with the actual address
+          delivery_address: address + state,
           delivery_date: deliveryDate,
           suggested_price: suggestedPrice,
           total_amount_due: totalAmountDue,
@@ -91,8 +93,21 @@ const FuelQuoteForm = () => {
             className={styles["input"]}
             type="text"
             id="deliveryAddress"
-            value="123 Main St, City, State, Zip" // Replace with the actual address
-            readOnly
+            value={address} // Replace with the actual address
+            onChange={(e) => setAddress(e.target.value)}
+            required
+          />
+          <label className={styles["label"]} htmlFor="deliveryAddress">
+            State:
+          </label>
+          <input
+            className={styles["input"]}
+            type="text"
+            id="state"
+            maxLength={2}
+            value={state} // Replace with the actual address
+            onChange={(e) => setState(e.target.value)}
+            required
           />
         </div>
         <div className={styles["form-group"]}>
