@@ -1262,6 +1262,11 @@
         "app/page:static/chunks/app/page.js"
       ],
       "async": false
+    },
+    "/Users/beast/Desktop/cosc/SoftwareDesignProject/styles/FuelQuoteForm.module.css#": {
+      "id": "./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[2].oneOf[8].use[1]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[2].oneOf[8].use[2]!./styles/FuelQuoteForm.module.css",
+      "name": "default",
+      "chunks": []
     }
   }
 }

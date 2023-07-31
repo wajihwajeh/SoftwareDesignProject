@@ -1,5 +1,3 @@
-"use client";
-
 import { useRouter } from "next/router";
 import { useState } from "react";
 import styles from "../styles/FuelQuoteForm.module.css";
@@ -8,11 +6,38 @@ const FuelQuoteForm = () => {
   const router = useRouter();
   const [gallonsRequested, setGallonsRequested] = useState("");
   const [deliveryDate, setDeliveryDate] = useState("");
+  const [suggestedPrice, setSuggestedPrice] = useState(0);
+  const [totalAmountDue, setTotalAmountDue] = useState(0);
 
-  // Client profile details (example)
-  const clientProfile = {
-    deliveryAddress: "123 Main St, City, State, Zip",
-    suggestedPrice: 2.5, // Example suggested price per gallon
+  const handleGetQuote = () => {
+    // Constants
+    const CURRENT_PRICE_PER_GALLON = 1.50;
+    const COMPANY_PROFIT_FACTOR = 0.10;
+
+    // Pricing function
+    const calculatePricing = (gallonsRequested, location, hasRateHistory) => {
+      const locationFactor = location === 'Texas' ? 0.02 : 0.04;
+      const rateHistoryFactor = hasRateHistory ? 0.01 : 0;
+      const gallonsRequestedFactor = gallonsRequested > 1000 ? 0.02 : 0.03;
+
+      const margin =
+        (locationFactor - rateHistoryFactor + gallonsRequestedFactor + COMPANY_PROFIT_FACTOR) *
+        CURRENT_PRICE_PER_GALLON;
+
+      const suggestedPrice = CURRENT_PRICE_PER_GALLON + margin;
+      const totalAmountDue = gallonsRequested * suggestedPrice;
+
+      return { suggestedPrice, totalAmountDue };
+    };
+
+    const { suggestedPrice, totalAmountDue } = calculatePricing(
+      +gallonsRequested,
+      "Texas", // Replace with the actual location (in-state or out-of-state) based on user input
+      true // Replace with the actual value based on client's rate history
+    );
+
+    setSuggestedPrice(suggestedPrice);
+    setTotalAmountDue(totalAmountDue);
   };
 
   const handleSubmit = async (e) => {
@@ -27,10 +52,10 @@ const FuelQuoteForm = () => {
         },
         body: JSON.stringify({
           gallons_requested: +gallonsRequested,
-          delivery_address: clientProfile.deliveryAddress,
+          delivery_address: "123 Main St, City, State, Zip", // Replace with the actual address
           delivery_date: deliveryDate,
-          suggested_price: clientProfile.suggestedPrice,
-          total_amount_due: gallonsRequested * clientProfile.suggestedPrice,
+          suggested_price: suggestedPrice,
+          total_amount_due: totalAmountDue,
         }),
       }).then((res) => res.json());
 
@@ -66,7 +91,7 @@ const FuelQuoteForm = () => {
             className={styles["input"]}
             type="text"
             id="deliveryAddress"
-            value={clientProfile.deliveryAddress}
+            value="123 Main St, City, State, Zip" // Replace with the actual address
             readOnly
           />
         </div>
@@ -91,7 +116,7 @@ const FuelQuoteForm = () => {
             className={styles["input"]}
             type="number"
             id="suggestedPrice"
-            value={clientProfile.suggestedPrice}
+            value={suggestedPrice}
             readOnly
           />
         </div>
@@ -103,12 +128,24 @@ const FuelQuoteForm = () => {
             className={styles["input"]}
             type="number"
             id="totalAmountDue"
-            value={gallonsRequested * clientProfile.suggestedPrice}
+            value={totalAmountDue}
             readOnly
           />
         </div>
         <div className={styles["form-group"]}>
-          <button className={styles["button"]} type="submit">
+          <button
+            className={styles["button"]}
+            type="button"
+            onClick={handleGetQuote}
+            disabled={!gallonsRequested || !deliveryDate}
+          >
+            Get Quote
+          </button>
+          <button
+            className={styles["button"]}
+            type="submit"
+            disabled={!gallonsRequested || !deliveryDate || !suggestedPrice || !totalAmountDue}
+          >
             Submit
           </button>
         </div>
