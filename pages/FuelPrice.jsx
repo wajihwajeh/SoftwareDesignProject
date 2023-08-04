@@ -41,9 +41,17 @@ const FuelQuoteForm = () => {
     setSuggestedPrice(suggestedPrice);
     setTotalAmountDue(totalAmountDue);
   };
-
+  const resetFields = () => {
+    setGallonsRequested("");
+    setAddress("");
+    setState("");
+    setDeliveryDate("");
+    setSuggestedPrice(0);
+    setTotalAmountDue(0);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
+
 
     try {
       const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/quote", {
@@ -158,8 +166,9 @@ const FuelQuoteForm = () => {
           </button>
           <button
             className={styles["button"]}
-            type="submit"
-            disabled={!gallonsRequested || !deliveryDate || !suggestedPrice || !totalAmountDue}
+            type="button"
+            onClick={resetFields}
+            // disabled={!gallonsRequested || !deliveryDate || !suggestedPrice || !totalAmountDue}
           >
             Submit
           </button>

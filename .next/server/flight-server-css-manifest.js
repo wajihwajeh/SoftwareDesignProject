@@ -4,5 +4,9 @@ self.__RSC_CSS_MANIFEST={
       "/Users/beast/Desktop/cosc/SoftwareDesignProject/styles/globals.css"
     ]
   },
-  "cssModules": {}
+  "cssModules": {
+    "/Users/beast/Desktop/cosc/SoftwareDesignProject/app/page": [
+      "/Users/beast/Desktop/cosc/SoftwareDesignProject/styles/globals.css"
+    ]
+  }
 }
